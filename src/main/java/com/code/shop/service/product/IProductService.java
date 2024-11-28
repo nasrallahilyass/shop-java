@@ -1,6 +1,8 @@
 package com.code.shop.service.product;
 
 import com.code.shop.model.Product;
+import com.code.shop.request.ProductAddRequest;
+import com.code.shop.request.ProductUpdateRequest;
 
 import java.util.List;
 
@@ -21,10 +23,11 @@ public interface IProductService {
 
     Product getProductById(Long id);
 
-    Product addProduct(Product product);
+    Product addProduct(ProductAddRequest product);
 
-    void updateProduct(Product product, Long productId);
+    Product updateProduct(ProductUpdateRequest product, Long productId);
 
     void deleteProduct(Long id);
 
+    Long countProductsByBrandAndName(String brand, String name);
 }
