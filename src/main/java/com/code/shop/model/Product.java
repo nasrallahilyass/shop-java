@@ -1,6 +1,10 @@
 package com.code.shop.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,26 +16,28 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+@Document(collection = "products")  // MongoDB collection name
+@JsonIgnoreProperties({"category", "images"}) // Ignore these fields in JSON serialization
 public class Product {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;  // MongoDB uses String type for IDs
+
     private String name;
     private String brand;
     private BigDecimal price;
     private int inventory;
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    // Many products belong to one category (DBRef instead of @ManyToOne)
+    @DBRef
     private Category category;
 
-    // One product can have many images
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    // One product can have many images (List of embedded documents or DBRef)
+    @DBRef(lazy = false)
     private List<Image> images;
 
-    // Constructor:
+    // Constructor for easy creation
     public Product(String name, String brand, BigDecimal price, int inventory, String description, Category category) {
         this.name = name;
         this.brand = brand;

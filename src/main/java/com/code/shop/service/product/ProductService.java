@@ -2,6 +2,7 @@ package com.code.shop.service.product;
 
 import com.code.shop.exceptions.NotFoundException;
 import com.code.shop.model.Category;
+import com.code.shop.model.Image;
 import com.code.shop.model.Product;
 import com.code.shop.repository.CategoryRepository;
 import com.code.shop.repository.ProductRepository;
@@ -36,7 +37,7 @@ public class ProductService implements IProductService {
 
     // Get Products + count products by brand and name METHODS
     @Override
-    public Product getProductById(Long id) {
+    public Product getProductById(String id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Product with id " + id + " not found"));
     }
@@ -92,19 +93,26 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product updateProduct(ProductUpdateRequest product, Long productId) {
+    public Product updateProduct(ProductUpdateRequest product, String productId) {
         return productRepository.findById(productId)
                 .map(existingProduct -> productRepository.save(updateExistingProduct(existingProduct, product)))
                 .orElseThrow(() -> new NotFoundException("Product not found"));
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public void deleteProduct(String id) {
         productRepository.findById(id).
                 ifPresentOrElse(productRepository::delete,
                         () -> {
                             throw new NotFoundException("Product not found");
                         });
+    }
+
+    public void updateProductImages(String productId, List<Image> images) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("Product not found"));
+        product.setImages(images);
+        productRepository.save(product);
     }
 
     // Helper Methods
@@ -131,4 +139,3 @@ public class ProductService implements IProductService {
         return existingProduct;
     }
 }
-

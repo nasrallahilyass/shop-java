@@ -1,34 +1,31 @@
 package com.code.shop.model;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Blob;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Document(collection = "images")
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;  // MongoDB uses String as the default type for IDs
 
     private String fileName;
     private String fileType;
 
-    @Lob
-    private Blob imageBlob;
+    private byte[] imageData;  // Store the image as a byte array
 
     private String downloadUri;
 
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @DBRef
+    private Product product;  // Reference to Product in MongoDB
 }

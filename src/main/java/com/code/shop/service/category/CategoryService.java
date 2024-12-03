@@ -17,7 +17,7 @@ public class CategoryService implements ICategoryService {
 
     // Get Categories METHODS:
     @Override
-    public Category getCategoryById(Long id) {
+    public Category getCategoryById(String id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Category with id " + id + " not found"));
     }
@@ -46,7 +46,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Category updateCategory(Category category, Long id) {
+    public Category updateCategory(Category category, String id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category categoryToUpdate = categoryOptional.get();
@@ -58,7 +58,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void deleteCategoryById(Long id) {
+    public void deleteCategoryById(String id) {
         categoryRepository.findById(id).
                 ifPresentOrElse(categoryRepository::delete,
                         () -> {

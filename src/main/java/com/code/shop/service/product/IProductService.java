@@ -21,13 +21,13 @@ public interface IProductService {
     List<Product> getProductsByBrandAndName(String brand, String name);
 
 
-    Product getProductById(Long id);
+    Product getProductById(String id);
 
     Product addProduct(ProductAddRequest product);
 
-    Product updateProduct(ProductUpdateRequest product, Long productId);
+    Product updateProduct(ProductUpdateRequest product, String productId);
 
-    void deleteProduct(Long id);
+    void deleteProduct(String id);
 
     Long countProductsByBrandAndName(String brand, String name);
 }

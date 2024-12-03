@@ -1,7 +1,8 @@
 package com.code.shop.model;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,18 +11,19 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Document(collection = "categories")
 public class Category {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
+
     private String name;
 
-    @OneToMany(mappedBy = "category")
+    // One category can have many products (DBRef instead of @OneToMany)
     private List<Product> products;
 
+    // Constructor for easy creation
     public Category(String name) {
         this.name = name;
     }

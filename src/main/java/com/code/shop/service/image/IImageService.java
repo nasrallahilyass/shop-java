@@ -6,13 +6,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
 public interface IImageService {
-    Image getImageById(Long id);
+    List<ImageDto> getAllImages();
 
-    void deleteImageById(Long id);
+    Image getImageById(String id);  // Change id type to String for MongoDB
 
-    List<ImageDto> saveImages(List<MultipartFile> file, Long productId);
+    void deleteImageById(String id);  // Change id type to String for MongoDB
 
-    void updateImage(MultipartFile file, Long imageId);
+    List<ImageDto> saveImages(List<MultipartFile> file, String productId);  // No change for productId
+
+    void updateImage(MultipartFile file, String imageId);  // Change imageId type to String for MongoDB
 }

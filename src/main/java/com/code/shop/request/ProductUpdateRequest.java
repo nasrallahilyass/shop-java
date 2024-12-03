@@ -20,7 +20,7 @@ public class ProductUpdateRequest {
 
         By using @Data, you save time by not having to manually implement these common methods. Lombok takes care of it behind the scenes, making your code more concise and maintainable.
       */
-    private Long id;
+    private String id;
     private String name;
     private String brand;
     private BigDecimal price;

@@ -1,12 +1,11 @@
 package com.code.shop.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.mongodb.repository.MongoRepository;
 import com.code.shop.model.Product;
 
 import java.util.List;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends MongoRepository<Product, String> {
     List<Product> findByCategoryName(String category);
 
     List<Product> findByBrand(String brand);
